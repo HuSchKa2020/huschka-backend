@@ -27,13 +27,11 @@
         }
 
         function checkIfUserExist($email){
-            echo "Hello";
             $stmt = $this->con->prepare("SELECT email FROM Kunde WHERE email = ?;");
         
             $stmt->bind_param("s", $email);
             $stmt->execute();
             $stmt->store_result();
-            echo $stmt->num_rows>0;
             return $stmt->num_rows>0;
 
         }
