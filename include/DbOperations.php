@@ -33,7 +33,12 @@
             $stmt->execute();
             $stmt->store_result();
             return $stmt->num_rows>0;
-
         }
 
+        function getProductInfo($productID){         
+            $stmt = $this->con->prepare("SELECT * FROM Produkt WHERE ProduktID = ?;");
+            $stmt->bind_param("s", $productID);
+            $stmt->execute();
+            return $stmt->get_result()->fetch_assoc();          
+        }
     }
