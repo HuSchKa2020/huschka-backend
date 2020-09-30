@@ -9,7 +9,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     if(isset($_POST['email']) and 
             isset($_POST['password']) and
             isset($_POST['vorname'] ) and
-            isset($_POST['nachname'])
+            isset($_POST['nachname']) and 
+            isset($_POST['adresse'])
         ){
             $db = new DbOperations();            
             
@@ -20,7 +21,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             
             }else{
 
-                if($db->createUser($_POST['email'], $_POST['password'], $_POST['vorname'], $_POST['nachname'])){
+                if($db->createUser($_POST['email'], $_POST['password'], $_POST['vorname'], $_POST['nachname'], $_POST['adresse'])){
                     $response['error'] = false;
                     $response['message'] = "User registered successfully";
                 } else{

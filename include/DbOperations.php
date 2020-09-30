@@ -11,13 +11,13 @@
             $this->con = $db->connect();
         }
 
-        function createUser($email, $passw, $vorname, $nachname){
+        function createUser($email, $passw, $vorname, $nachname, $adresse){
             $password = md5($passw); // Hash Password
 
-            $stmt = $this->con->prepare("INSERT INTO `Kunde` (`email`, `password`, `Vorname`, `Nachname`) 
-                VALUES (?, ?, ?, ?);");
+            $stmt = $this->con->prepare("INSERT INTO `Kunde` (`email`, `password`, `Vorname`, `Nachname`, `Adresse` ) 
+                VALUES (?, ?, ?, ?, ?);");
 
-            $stmt->bind_param("ssss", $email, $password, $vorname, $nachname);
+            $stmt->bind_param("sssss", $email, $password, $vorname, $nachname, $adresse);
 
             if($stmt->execute()){
                 return true;
