@@ -41,4 +41,19 @@
             $stmt->execute();
             return $stmt->get_result()->fetch_assoc();          
         }
+
+        function addShoppingList($userID, $date, $supermarkt){
+            echo "Hello";
+            /*$stmt = $this->con->prepare("INSERT INTO `Einkaufsliste` (KundenID, Erstelldatum, Supermarkt) 
+                VALUES (?, ?, ?);");
+
+            $stmt->bind_param("sss", $userID, $date, $supermarkt);
+
+            /*if($stmt->execute()){
+                return true;
+            }else{
+                return false;
+            }*/
+            return true;
+        }
     }
