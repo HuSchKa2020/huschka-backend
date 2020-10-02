@@ -56,7 +56,7 @@
             $stmt ->bind_param("s",$email);
             $stmt->execute();
             return $stmt->get_result()->fetch_assoc();
-
+        }
 
         function addShoppingList($userID, $date, $supermarkt){
             $stmt = $this->con->prepare("INSERT INTO `Einkaufsliste` (KundenID, Erstelldatum, Supermarkt) 
