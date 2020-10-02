@@ -42,6 +42,22 @@
             return $stmt->get_result()->fetch_assoc();          
         }
 
+        public function userLogin($email, $passw){
+            $password = md5($passw);
+            $stmt = $this->con->prepare("SELECT id FROM Kunde WHERE email = ? AND password =?;");
+            $stmt->bind_param("ss",$email,$password);
+            $stmt->execute();
+            $stmt->store_result();
+            return $stmt->num_rows >0;
+        }
+
+        public function getUserbyUsername($email){
+            $stmt = $this->con->prepare("SELECT * FROM Kunde WHERE email = ?;");
+            $stmt ->bind_param("s",$email);
+            $stmt->execute();
+            return $stmt->get_result()->fetch_assoc();
+
+
         function addShoppingList($userID, $date, $supermarkt){
             $stmt = $this->con->prepare("INSERT INTO `Einkaufsliste` (KundenID, Erstelldatum, Supermarkt) 
                 VALUES (?, ?, ?);");
@@ -53,5 +69,6 @@
             }else{
                 return false;
             }
+
         }
     }
