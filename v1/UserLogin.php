@@ -16,7 +16,8 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
         $response['error'] = false;
         $response['id'] = $user['id'];
         $response['email'] = $user['email'];
-        $response['Nachname'] = $user['Nachname'];
+        $response['nachname'] = $user['Nachname'];
+        $response['vorname'] = $user['Vorname'];
         
       }else{
           
