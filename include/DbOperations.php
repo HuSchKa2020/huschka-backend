@@ -11,13 +11,13 @@
             $this->con = $db->connect();
         }
 
-        function createUser($email, $passw, $vorname, $nachname){
+        function createUser($email, $passw, $vorname, $nachname, $adresse){
             $password = md5($passw); // Hash Password
 
-            $stmt = $this->con->prepare("INSERT INTO `Kunde` (`email`, `password`, `Vorname`, `Nachname`) 
-                VALUES (?, ?, ?, ?);");
+            $stmt = $this->con->prepare("INSERT INTO `Kunde` (`email`, `password`, `Vorname`, `Nachname`, `Adresse` ) 
+                VALUES (?, ?, ?, ?, ?);");
 
-            $stmt->bind_param("ssss", $email, $password, $vorname, $nachname);
+            $stmt->bind_param("sssss", $email, $password, $vorname, $nachname, $adresse);
 
             if($stmt->execute()){
                 return true;
@@ -41,6 +41,7 @@
             $stmt->execute();
             return $stmt->get_result()->fetch_assoc();          
         }
+
         public function userLogin($email, $passw){
             $password = md5($passw);
             $stmt = $this->con->prepare("SELECT id FROM Kunde WHERE email = ? AND password =?;");
@@ -55,5 +56,19 @@
             $stmt ->bind_param("s",$email);
             $stmt->execute();
             return $stmt->get_result()->fetch_assoc();
+
+
+        function addShoppingList($userID, $date, $supermarkt){
+            $stmt = $this->con->prepare("INSERT INTO `Einkaufsliste` (KundenID, Erstelldatum, Supermarkt) 
+                VALUES (?, ?, ?);");
+
+            $stmt->bind_param("sss", $userID, $date, $supermarkt);
+
+            if($stmt->execute()){
+                return true;
+            }else{
+                return false;
+            }
+
         }
     }

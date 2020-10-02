@@ -19,8 +19,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             $response['message'] = "Product exist";
             $response['id'] = $product['ProduktID'];
             $response['hersteller'] = $product['Hersteller'];
-            $response['name'] = $product['Name'];;
-            $response['preis'] = $product['Preis'];;
+            $response['name'] = $product['Name'];
+            $response['preis'] = $product['Preis'];
+            $response['kcal'] = $product['Kcal'];;
+            $response['kategorie'] = $product['Kategorie'];;
         } else{
             $response['error'] = true;
             $response['message'] = "Product doesnt exist";
