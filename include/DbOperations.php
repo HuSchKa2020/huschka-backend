@@ -27,8 +27,8 @@
         }
 
             public function idAusgeben($email){                                     //function die Mittels Email die zuletzt erstellte ID ausgibt.
-            $stmt = $this->con->prepare("SELECT id FROM kunde ORDER BY id DESC;");  
-            $stmt ->bind_param("s",$email);
+            $stmt = $this->con->prepare("SELECT id FROM Kunde ORDER BY id DESC;");  
+
             $stmt->execute();
             return $stmt->get_result()->fetch_assoc();
         }
