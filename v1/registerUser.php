@@ -22,8 +22,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             }else{
 
                 if($db->createUser($_POST['email'], $_POST['password'], $_POST['vorname'], $_POST['nachname'], $_POST['adresse'])){
+                    $user = $db->idAusgeben($_POST['email']);                                                       //variable, die auf die function idAusgeben zugreift siehe Skript DbOperations                                              
                     $response['error'] = false;
                     $response['message'] = "User registered successfully";
+                    $response['id'] = $user['id'];         
                 } else{
     
                     $response['error'] = true;
