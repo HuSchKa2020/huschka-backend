@@ -78,4 +78,32 @@
             }
 
         }
+        
+        public function getShoppingListbyUser($id){
+            $stmt = $this->con->prepare("SELECT * FROM Einkaufsliste WHERE KundenID = ?;");
+            
+            $stmt ->bind_param("s",$id);
+            $stmt->execute();
+            $stmt->bind_result($ListenID, $Erstelldatum, $Supermarkt, $Status, $KundenID);
+            
+            $response=array();
+            
+            while($stmt->fetch()){
+                $temp = array();
+            
+            
+                $temp['ListenID'] = $ListenID;
+                $temp['Erstelldatum'] = $Erstelldatum;
+                $temp['Supermarkt'] = $Supermarkt;
+                $temp['Status'] = $Status;
+                $temp['KundenID'] = $KundenID;
+            
+        
+                array_push($response,$temp);
+            }
+            return $response;
+            
+            
+        }
     }
+ 
