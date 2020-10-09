@@ -105,5 +105,37 @@
             
             
         }
+        
+        public function getProducts($Produktname){
+            $sql="SELECT * FROM Produkt WHERE Name Like ?;";
+            
+            $stmt = $this->con->prepare($sql);
+            
+            $param="%".$Produktname."%";
+            $stmt ->bind_param("s",$param);
+            
+            $stmt->execute();
+            $stmt->bind_result($ProduktID, $Hersteller, $Name, $Kategorie, $Preis, $Kcal);
+            
+            $response=array();
+            
+            while($stmt->fetch()){
+                $temp = array();
+            
+            
+                $temp['ProduktID'] = $ProduktID;
+                $temp['Hersteller'] = $Hersteller;
+                $temp['Name'] = $Name;
+                $temp['Kategorie'] = $Kategorie;
+                $temp['Preis'] = $Preis;
+                $temp['Kcal'] = $Kcal;
+            
+        
+                array_push($response,$temp);
+            }
+            return $response;
+            
+            
+        }
     }
  
