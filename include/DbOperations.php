@@ -25,6 +25,8 @@
                 return false;
             }
         }
+        
+
 
             public function idAusgeben($email){                                     //function die Mittels Email die zuletzt erstellte ID ausgibt.
             $stmt = $this->con->prepare("SELECT id FROM Kunde ORDER BY id DESC;");  
@@ -70,6 +72,20 @@
                 VALUES (?, ?, ?);");
 
             $stmt->bind_param("sss", $userID, $date, $supermarkt);
+
+            if($stmt->execute()){
+                return true;
+            }else{
+                return false;
+            }
+
+        }
+        
+        function InsertProducts($listenID, $produktID, $anzahl){
+            $stmt = $this->con->prepare("INSERT INTO `Liste_Produkte` (ListenID, ProduktID, Anzahl) 
+                VALUES (?, ?, ?);");
+
+            $stmt->bind_param("sss", $listenID, $produktID, $anzahl);
 
             if($stmt->execute()){
                 return true;
