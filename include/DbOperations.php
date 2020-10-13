@@ -181,12 +181,12 @@
 
         }
         
-                public function getProductsbyListenID($listenid){
-            $stmt = $this->con->prepare("SELECT * FROM Liste_Produkte WHERE ListenID = ?;");
+        public function getProductsbyListenID($listenid){
+            $stmt = $this->con->prepare("SELECT * FROM Liste_Produkte l, Produkt p WHERE ListenID = ? AND l.ProduktID = p.ProduktID;");
             
             $stmt ->bind_param("s",$listenid);
             $stmt->execute();
-            $stmt->bind_result($ListenID, $ProduktID, $Anzahl);
+            $stmt->bind_result($ListenID, $ProduktID, $Anzahl, $ProduktID, $Hersteller, $Name, $Kategorie, $Preis, $Kcal);
             
             $response=array();
             
@@ -196,10 +196,13 @@
             
                 $temp['ListenID'] = $ListenID;
                 $temp['ProduktID'] = $ProduktID;
+                $temp['Hersteller'] = $Hersteller;
+                $temp['Name'] = $Name;
+                $temp['$Kategorie'] = $Kategorie;
+                $temp['Preis'] = $Preis;
+                $temp['Kcal'] = $Kcal;
                 $temp['Anzahl'] = $Anzahl;
-             
-            
-        
+
                 array_push($response,$temp);
             }
             return $response;
