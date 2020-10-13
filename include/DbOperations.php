@@ -167,6 +167,20 @@
 
         }
         
+                function DeleteShoppinglist($listenid){
+            $stmt = $this->con->prepare("DELETE FROM Einkaufsliste where ListenID = ?;");
+
+            $stmt->bind_param("s", $listenid);
+            
+            if($stmt->execute()){
+                return true;
+            }else{
+                return false;
+            }
+            
+
+        }
+        
                 public function getProductsbyListenID($listenid){
             $stmt = $this->con->prepare("SELECT * FROM Liste_Produkte WHERE ListenID = ?;");
             
