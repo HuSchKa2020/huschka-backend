@@ -153,5 +153,30 @@
             
             
         }
+                public function getProductsbyListenID($listenid){
+            $stmt = $this->con->prepare("SELECT * FROM Liste_Produkte WHERE ListenID = ?;");
+            
+            $stmt ->bind_param("s",$listenid);
+            $stmt->execute();
+            $stmt->bind_result($ListenID, $ProduktID, $Anzahl);
+            
+            $response=array();
+            
+            while($stmt->fetch()){
+                $temp = array();
+            
+            
+                $temp['ListenID'] = $ListenID;
+                $temp['ProduktID'] = $ProduktID;
+                $temp['Anzahl'] = $Anzahl;
+             
+            
+        
+                array_push($response,$temp);
+            }
+            return $response;
+            
+            
+        }
     }
  
