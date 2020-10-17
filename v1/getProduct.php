@@ -6,12 +6,12 @@ $response = array();
 session_start();
 if($_SERVER['REQUEST_METHOD']=='POST'){
     
-  if(isset($_POST['Name']) ){
+  if(isset($_POST['Produktname']) ){
       
       $db = new DbOperations();
       
       
-        $response = $db->getProducts($_POST['Name']);
+        $response = $db->getProducts($_POST['Produktname']);
         
       
   } else{

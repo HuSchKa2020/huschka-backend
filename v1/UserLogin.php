@@ -6,18 +6,18 @@ $response = array();
 session_start();
 if($_SERVER['REQUEST_METHOD']=='POST'){
     
-  if(isset($_POST['email']) and 
-            isset($_POST['password'])){
+  if(isset($_POST['Email']) and 
+            isset($_POST['Password'])){
       
       $db = new DbOperations();
       
-      if($db->userLogin($_POST['email'], $_POST['password'])){
-        $user = $db->getUserbyUsername($_POST['email']);
+      if($db->userLogin($_POST['Email'], $_POST['Password'])){
+        $user = $db->getUserbyUsername($_POST['Email']);
         $response['error'] = false;
-        $response['id'] = $user['id'];
-        $response['email'] = $user['email'];
-        $response['nachname'] = $user['Nachname'];
-        $response['vorname'] = $user['Vorname'];
+        $response['UserID'] = $user['UserID'];
+        $response['Email'] = $user['Email'];
+        $response['Nachname'] = $user['Nachname'];
+        $response['Vorname'] = $user['Vorname'];
         
       }else{
           

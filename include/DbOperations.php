@@ -11,13 +11,13 @@
             $this->con = $db->connect();
         }
 
-        function createUser($email, $passw, $vorname, $nachname, $adresse){
-            $password = md5($passw); // Hash Password
+        function createUser($Email, $Passw, $Vorname, $Nachname, $Adresse){
+            $Password = md5($Passw); // Hash Password
 
             $stmt = $this->con->prepare("INSERT INTO `Kunde` (`email`, `password`, `Vorname`, `Nachname`, `Adresse` ) 
                 VALUES (?, ?, ?, ?, ?);");
 
-            $stmt->bind_param("sssss", $email, $password, $vorname, $nachname, $adresse);
+            $stmt->bind_param("sssss", $Email, $Password, $Vorname, $Nachname, $Adresse);
 
             if($stmt->execute()){
                 return true;
@@ -28,50 +28,50 @@
         
 
 
-            public function idAusgeben($email){                                     //function die Mittels Email die zuletzt erstellte ID ausgibt.
+            public function idAusgeben($Email){                                     //function die Mittels Email die zuletzt erstellte ID ausgibt.
             $stmt = $this->con->prepare("SELECT id FROM Kunde ORDER BY id DESC;");  
 
             $stmt->execute();
             return $stmt->get_result()->fetch_assoc();
         }
         
-        function checkIfUserExist($email){
+        function checkIfUserExist($Email){
             $stmt = $this->con->prepare("SELECT email FROM Kunde WHERE email = ?;");
         
-            $stmt->bind_param("s", $email);
+            $stmt->bind_param("s", $Email);
             $stmt->execute();
             $stmt->store_result();
             return $stmt->num_rows>0;
         }
 
-        function getProductInfo($productID){         
+        function getProductInfo($ProductID){         
             $stmt = $this->con->prepare("SELECT * FROM Produkt WHERE ProduktID = ?;");
-            $stmt->bind_param("s", $productID);
+            $stmt->bind_param("s", $ProductID);
             $stmt->execute();
             return $stmt->get_result()->fetch_assoc();          
         }
 
-        public function userLogin($email, $passw){
-            $password = md5($passw);
+        public function userLogin($Email, $Passw){
+            $Password = md5($Passw);
             $stmt = $this->con->prepare("SELECT id FROM Kunde WHERE email = ? AND password =?;");
-            $stmt->bind_param("ss",$email,$password);
+            $stmt->bind_param("ss",$Email,$Password);
             $stmt->execute();
             $stmt->store_result();
             return $stmt->num_rows >0;
         }
 
-        public function getUserbyUsername($email){
+        public function getUserbyUsername($Email){
             $stmt = $this->con->prepare("SELECT * FROM Kunde WHERE email = ?;");
-            $stmt ->bind_param("s",$email);
+            $stmt ->bind_param("s",$Email);
             $stmt->execute();
             return $stmt->get_result()->fetch_assoc();
         }
 
-        function addShoppingList($userID, $date, $supermarkt){
+        function addShoppingList($UserID, $Date, $Supermarkt){
             $stmt = $this->con->prepare("INSERT INTO `Einkaufsliste` (KundenID, Erstelldatum, Supermarkt) 
                 VALUES (?, ?, ?);");
 
-            $stmt->bind_param("sss", $userID, $date, $supermarkt);
+            $stmt->bind_param("sss", $UserID, $Date, $Supermarkt);
 
             if($stmt->execute()){
                 return true;
@@ -81,11 +81,11 @@
 
         }
         
-        function InsertProducts($listenID, $produktID, $anzahl){
+        function InsertProducts($ListenID, $ProduktID, $Anzahl){
             $stmt = $this->con->prepare("INSERT INTO `Liste_Produkte` (ListenID, ProduktID, Anzahl) 
                 VALUES (?, ?, ?);");
 
-            $stmt->bind_param("sss", $listenID, $produktID, $anzahl);
+            $stmt->bind_param("sss", $ListenID, $ProduktID, $Anzahl);
 
             if($stmt->execute()){
                 return true;
@@ -95,12 +95,12 @@
 
         }
         
-        public function getShoppingListbyUser($id){
+        public function getShoppingListbyUser($ID){
             $stmt = $this->con->prepare("SELECT * FROM Einkaufsliste WHERE KundenID = ?;");
             
-            $stmt ->bind_param("s",$id);
+            $stmt ->bind_param("s",$ID);
             $stmt->execute();
-            $stmt->bind_result($ListenID, $Erstelldatum, $Supermarkt, $Status, $KundenID);
+            $stmt->bind_result($Listenid, $Erstelldatum, $Supermarkt, $Status, $KundenID);
             
             $response=array();
             
@@ -153,10 +153,10 @@
             
             
         }
-        function DeleteProduct($listenid){
+        function DeleteProduct($ListenID){
             $stmt = $this->con->prepare("DELETE FROM Liste_Produkte where ListenID = ?;");
 
-            $stmt->bind_param("s", $listenid);
+            $stmt->bind_param("s", $ListenID);
 
             if($stmt->execute()){
                 return true;
@@ -167,10 +167,10 @@
 
         }
         
-                function DeleteShoppinglist($listenid){
+                function DeleteShoppinglist($ListenID){
             $stmt = $this->con->prepare("DELETE FROM Einkaufsliste where ListenID = ?;");
 
-            $stmt->bind_param("s", $listenid);
+            $stmt->bind_param("s", $ListenID);
             
             if($stmt->execute()){
                 return true;
@@ -181,10 +181,10 @@
 
         }
         
-        public function getProductsbyListenID($listenid){
+        public function getProductsbyListenID($ListenID){
             $stmt = $this->con->prepare("SELECT * FROM Liste_Produkte l, Produkt p WHERE ListenID = ? AND l.ProduktID = p.ProduktID;");
             
-            $stmt ->bind_param("s",$listenid);
+            $stmt ->bind_param("s",$ListenID);
             $stmt->execute();
             $stmt->bind_result($ListenID, $ProduktID, $Anzahl, $ProduktID, $Hersteller, $Name, $Kategorie, $Preis, $Kcal);
             

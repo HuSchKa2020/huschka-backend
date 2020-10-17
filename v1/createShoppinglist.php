@@ -6,13 +6,13 @@ $response = array();
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
-    if(isset($_POST['userID']) and 
-            isset($_POST['date']) and
-            isset($_POST['supermarkt'])
+    if(isset($_POST['UserID']) and 
+            isset($_POST['Date']) and
+            isset($_POST['Supermarkt'])
         ){
             $db = new DbOperations();            
 
-            if($db->addShoppingList($_POST['userID'], $_POST['date'], $_POST['supermarkt'])){
+            if($db->addShoppingList($_POST['UserID'], $_POST['Date'], $_POST['Supermarkt'])){
                 $response['error'] = false;
                 $response['message'] = "Shoppinglist created successfully";
             } else{

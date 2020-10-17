@@ -5,13 +5,13 @@ $response = array();
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
-    if(         isset($_POST['listenID']) and
-                isset($_POST['produktID']) and 
-                isset($_POST['anzahl']) )
+    if(         isset($_POST['ListenID']) and
+                isset($_POST['ProduktID']) and 
+                isset($_POST['Anzahl']) )
         {
             $db = new DbOperations();            
 
-            if($db->InsertProducts($_POST['listenID'], $_POST['produktID'], $_POST['anzahl'])){
+            if($db->InsertProducts($_POST['ListenID'], $_POST['ProduktID'], $_POST['Anzahl'])){
                 $response['error'] = false;
                 $response['message'] = "Products were added";
             } else{
