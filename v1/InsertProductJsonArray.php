@@ -9,14 +9,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             
             $db=new DbOperations();
             
-            $arr=json_decode($_POST['ProductArray'],true);
+            $Arr=json_decode($_POST['ProductArray'],true);
             
             $isError=false;
             
-            foreach((array)$arr as $item){
+            foreach((array)$Arr as $Item){
                 
                 if(
-                $db->InsertProducts($item['ListenID'],$item['ProduktID'],$item['numberOf'])==false
+                $db->InsertProducts($Item['ListenID'],$item['ProduktID'],$item['Anzahl'])==false
                 ){
 
                     $isError=true;

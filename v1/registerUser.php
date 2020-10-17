@@ -6,26 +6,26 @@ $response = array();
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
-    if(isset($_POST['email']) and 
-            isset($_POST['password']) and
-            isset($_POST['vorname'] ) and
-            isset($_POST['nachname']) and 
-            isset($_POST['adresse'])
+    if(isset($_POST['Email']) and 
+            isset($_POST['Password']) and
+            isset($_POST['Vorname'] ) and
+            isset($_POST['Nachname']) and 
+            isset($_POST['Adresse'])
         ){
             $db = new DbOperations();            
             
-            if(($db->checkIfUserExist($_POST['email'])) == true){ 
+            if(($db->checkIfUserExist($_POST['Email'])) == true){ 
                 
                 $response['error'] = true;
                 $response['message'] = "User already registered";
             
             }else{
 
-                if($db->createUser($_POST['email'], $_POST['password'], $_POST['vorname'], $_POST['nachname'], $_POST['adresse'])){
-                    $user = $db->idAusgeben($_POST['email']);                                                       //variable, die auf die function idAusgeben zugreift siehe Skript DbOperations                                              
+                if($db->createUser($_POST['Email'], $_POST['Password'], $_POST['Vorname'], $_POST['Nachname'], $_POST['Adresse'])){
+                    $user = $db->idAusgeben($_POST['Email']);                                                       //variable, die auf die function idAusgeben zugreift siehe Skript DbOperations                                              
                     $response['error'] = false;
                     $response['message'] = "User registered successfully";
-                    $response['id'] = $user['id'];         
+                    $response['UserID'] = $user['UserID'];         
                 } else{
     
                     $response['error'] = true;

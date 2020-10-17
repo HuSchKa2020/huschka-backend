@@ -6,23 +6,23 @@ $response = array();
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
     
-    if(isset($_POST['productID'])){
+    if(isset($_POST['ProduktID'])){
         
         
 
         $db = new DbOperations();
 
-        $product = $db->getProductInfo($_POST['productID']);
+        $product = $db->getProductInfo($_POST['ProduktID']);
         
         if($product != null){
             $response['error'] = false;
             $response['message'] = "Product exist";
-            $response['id'] = $product['ProduktID'];
-            $response['hersteller'] = $product['Hersteller'];
-            $response['name'] = $product['Name'];
-            $response['preis'] = $product['Preis'];
-            $response['kcal'] = $product['Kcal'];;
-            $response['kategorie'] = $product['Kategorie'];;
+            $response['ID'] = $product['ProduktID'];
+            $response['Hersteller'] = $product['Hersteller'];
+            $response['Name'] = $product['Name'];
+            $response['Preis'] = $product['Preis'];
+            $response['Kcal'] = $product['Kcal'];;
+            $response['Kategorie'] = $product['Kategorie'];;
         } else{
             $response['error'] = true;
             $response['message'] = "Product doesnt exist";

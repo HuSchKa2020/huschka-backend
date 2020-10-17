@@ -6,12 +6,12 @@ $response = array();
 session_start();
 if($_SERVER['REQUEST_METHOD']=='POST'){
     
-  if(isset($_POST['listenid']) ){
+  if(isset($_POST['ListenID']) ){
       
       $db = new DbOperations();
       
       
-        if($db->DeleteShoppinglist($_POST['listenid'])){
+        if($db->DeleteShoppinglist($_POST['ListenID'])){
             $response['error'] = false;
             $response['message'] = "Shoppinglist delete succesfully";
             } else{
