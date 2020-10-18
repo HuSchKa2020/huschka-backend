@@ -209,5 +209,25 @@
             
             
         }
+        
+        public function AddUpAllPricesOfProducts($ListenID){
+                $stmt=$this->con->prepare ("SELECT ListenID, SUM(b.Preis * a.Anzahl) FROM Liste_Produkte a, Produkt b WHERE ListenID = ? AND a.ProduktID = b.ProduktID;");
+                $stmt->bind_param("s",$ListenID);
+                $stmt->execute();
+                $stmt->bind_result($ListenID, $Preis);
+            
+                $response=array();
+            
+                while($stmt->fetch()){
+                    $temp = array();
+                    
+                    $temp['ListenID'] = $ListenID;
+                    $temp['Gesamtpreis'] = $Preis;
+                
+                    array_push($response,$temp);
+            }
+            return $response;
+            
+        }
     }
  
