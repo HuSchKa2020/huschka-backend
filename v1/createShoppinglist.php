@@ -13,8 +13,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             $db = new DbOperations();            
 
             if($db->addShoppingList($_POST['KundenID'], $_POST['Erstelldatum'], $_POST['Supermarkt'])){
+                $user = $db->ListenidAusgeben($_POST['KundenID']); 
                 $response['error'] = false;
                 $response['message'] = "Shoppinglist created successfully";
+                $response['ListenID'] = $user['ListenID'];
             } else{
     
                 $response['error'] = true;
