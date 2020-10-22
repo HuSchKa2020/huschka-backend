@@ -71,15 +71,25 @@
             $stmt = $this->con->prepare("INSERT INTO `Einkaufsliste` (KundenID, Erstelldatum, Supermarkt) 
                 VALUES (?, ?, ?);");
 
-            $stmt->bind_param("sss", $KundenID, $Erstelldatum, $Supermarkt);
 
+            $stmt->bind_param("sss", $KundenID, $Erstelldatum, $Supermarkt);
+            
             if($stmt->execute()){
+
+            
                 return true;
             }else{
                 return false;
             }
 
         }
+            public function ListenidAusgeben($KundenID){                                     
+            $stmt = $this->con->prepare("SELECT ListenID FROM Einkaufsliste WHERE KundenID = ? ORDER BY ListenID DESC;");  
+            $stmt -> bind_param("s", $KundenID);
+            $stmt->execute();
+            return $stmt->get_result()->fetch_assoc();
+        }
+        
         
         function InsertProducts($ListenID, $ProduktID, $Anzahl){
             $stmt = $this->con->prepare("INSERT INTO `Liste_Produkte` (ListenID, ProduktID, Anzahl) 
