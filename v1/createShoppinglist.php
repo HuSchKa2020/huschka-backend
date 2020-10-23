@@ -14,6 +14,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
             if($db->addShoppingList($_POST['KundenID'], $_POST['Erstelldatum'], $_POST['Supermarkt'])){
                 $user = $db->ListenidAusgeben($_POST['KundenID']); 
+                //$Status = $db->StatusSetzen($_POST[$user'ListenID']);
                 $response['error'] = false;
                 $response['message'] = "Shoppinglist created successfully";
                 $response['ListenID'] = $user['ListenID'];
