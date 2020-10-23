@@ -68,8 +68,8 @@
         }
 
         function addShoppingList($KundenID, $Erstelldatum, $Supermarkt){
-            $stmt = $this->con->prepare("INSERT INTO `Einkaufsliste` (KundenID, Erstelldatum, Supermarkt) 
-                VALUES (?, ?, ?);");
+            $stmt = $this->con->prepare("INSERT INTO `Einkaufsliste` (KundenID, Erstelldatum, Supermarkt, ListStatus) 
+                VALUES (?, ?, ?, 'erstellt');");
 
 
             $stmt->bind_param("sss", $KundenID, $Erstelldatum, $Supermarkt);
@@ -83,10 +83,18 @@
             }
 
         }
-            public function ListenidAusgeben($KundenID){                                     
+        
+        public function ListenidAusgeben($KundenID){                                     
             $stmt = $this->con->prepare("SELECT ListenID FROM Einkaufsliste WHERE KundenID = ? ORDER BY ListenID DESC;");  
             $stmt -> bind_param("s", $KundenID);
             $stmt->execute();
+            return $stmt->get_result()->fetch_assoc();
+        }
+        
+        public function StatusSetzen($ListenID){
+            $stmt = $this->con->prepare("UPDATE einkaufsliste SET ListStatus = 'erstellt' WHERE ListenID = ?;");
+            $stmt -> bind_param("s", $ListenID);
+            $stmt -> execute();
             return $stmt->get_result()->fetch_assoc();
         }
         
