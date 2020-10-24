@@ -171,10 +171,24 @@
             
             
         }
-        function DeleteProduct($ListenID){
+        function DeleteAllProduct($ListenID){
             $stmt = $this->con->prepare("DELETE FROM Liste_Produkte where ListenID = ?;");
 
             $stmt->bind_param("s", $ListenID);
+
+            if($stmt->execute()){
+                return true;
+            }else{
+                return false;
+            }
+            
+
+        }
+        
+        public function DeleteProduct($ListenID, $ProduktID){
+            $stmt = $this->con->prepare("DELETE FROM Liste_Produkte where ListenID = ? AND ProduktID = ?;");
+
+            $stmt->bind_param("ss", $ListenID, $ProduktID);
 
             if($stmt->execute()){
                 return true;

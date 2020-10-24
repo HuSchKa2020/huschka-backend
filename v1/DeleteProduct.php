@@ -6,12 +6,13 @@ $response = array();
 session_start();
 if($_SERVER['REQUEST_METHOD']=='POST'){
     
-  if(isset($_POST['ListenID']) ){
+  if(isset($_POST['ListenID'])  and
+        isset($_POST['ProduktID'])){
       
       $db = new DbOperations();
       
       
-        if($db->DeleteAllProduct($_POST['ListenID'])){
+        if($db->DeleteProduct($_POST['ListenID'], $_POST['ProduktID'])){
             $response['error'] = false;
             $response['message'] = "Contant of Shoppinglist delete succesfully";
             } else{
@@ -20,7 +21,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
                 $response['message'] = "Contant of Shoppinglist couldn´t delete, try Again please!";
     
             }
-        
+         
       
   } else{
       
