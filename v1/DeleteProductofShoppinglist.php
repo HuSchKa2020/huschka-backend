@@ -11,7 +11,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
       $db = new DbOperations();
       
       
-        if($db->DeleteProduct($_POST['ListenID'])){
+        if($db->DeleteAllProduct($_POST['ListenID'])){
             $response['error'] = false;
             $response['message'] = "Contant of Shoppinglist delete succesfully";
             } else{
