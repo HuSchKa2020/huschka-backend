@@ -28,11 +28,11 @@
         
 
 
-            public function idAusgeben($email){                                     //function die Mittels Email die zuletzt erstellte ID ausgibt.
-            $stmt = $this->con->prepare("SELECT id FROM Kunde ORDER BY id DESC;");  
+        public function idAusgeben($email){                                     //function die Mittels Email die zuletzt erstellte ID ausgibt.
+        $stmt = $this->con->prepare("SELECT id FROM Kunde ORDER BY id DESC;");  
 
-            $stmt->execute();
-            return $stmt->get_result()->fetch_assoc();
+        $stmt->execute();
+        return $stmt->get_result()->fetch_assoc();
         }
         
         function checkIfUserExist($email){
@@ -260,6 +260,13 @@
             }
             return $response;
             
+        }
+        
+        public function TotalPrice($ListenID){
+            $stmt = $this->con->prepare("SELECT SUM(b.Preis * a.Anzahl) as price FROM Liste_Produkte a, Produkt b WHERE ListenID = ? AND a.ProduktID = b.ProduktID;");
+            $stmt -> bind_param("s", $ListenID);
+            $stmt -> execute();
+            return $stmt->get_result()->fetch_assoc();
         }
     }
  

@@ -16,21 +16,22 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             foreach((array)$Arr as $Item){
                 
                 if(
-                $db->InsertProducts($Item['ListenID'],$item['ProduktID'],$item['Anzahl'])==false
+                $db->InsertProducts($_POST['ListenID'],$Item['ProduktID'],$Item['Anzahl'])==false
                 ){
-
+                
                     $isError=true;
                     
-                }
+                }                       
             }
             
             if($isError){
                  $response['error'] = true;
                  $response['message'] = "Products couldn´t be added, try Again please!";
             } else{
+                $price = $db->TotalPrice($_POST['ListenID']);
                 $response['error'] = false;
                 $response['message'] = "hat funktioniert";
-              
+                $response['Gesamtpreis'] = $price['price'];
             }
         }else{
         
