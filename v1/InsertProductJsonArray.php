@@ -31,7 +31,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 $price = $db->TotalPrice($_POST['ListenID']);
                 $response['error'] = false;
                 $response['message'] = "hat funktioniert";
-                $response['Gesamtpreis'] = $price['price'];
+                $response['Gesamtpreis'] = $price['Gesamtpreis'];
             }
         }else{
         

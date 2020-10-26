@@ -230,7 +230,7 @@
                 $temp['ProduktID'] = $ProduktID;
                 $temp['Hersteller'] = $Hersteller;
                 $temp['Name'] = $Name;
-                $temp['$Kategorie'] = $Kategorie;
+                $temp['Kategorie'] = $Kategorie;
                 $temp['Preis'] = $Preis;
                 $temp['Kcal'] = $Kcal;
                 $temp['Anzahl'] = $Anzahl;
@@ -245,7 +245,7 @@
 
         
         public function TotalPrice($ListenID){
-            $stmt = $this->con->prepare("SELECT SUM(b.Preis * a.Anzahl) as price FROM Liste_Produkte a, Produkt b WHERE ListenID = ? AND a.ProduktID = b.ProduktID;");
+            $stmt = $this->con->prepare("SELECT SUM(b.Preis * a.Anzahl) as Gesamtpreis FROM Liste_Produkte a, Produkt b WHERE ListenID = ? AND a.ProduktID = b.ProduktID;");
             $stmt -> bind_param("s", $ListenID);
             $stmt -> execute();
             return $stmt->get_result()->fetch_assoc();
