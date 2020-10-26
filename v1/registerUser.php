@@ -25,7 +25,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                     $user = $db->idAusgeben($_POST['Email']);                                                       //variable, die auf die function idAusgeben zugreift siehe Skript DbOperations                                              
                     $response['error'] = false;
                     $response['message'] = "User registered successfully";
-                    $response['UserID'] = $user['UserID'];         
+                    $response['UserID'] = $user['id'];         
                 } else{
     
                     $response['error'] = true;
