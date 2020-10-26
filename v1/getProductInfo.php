@@ -17,7 +17,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         if($product != null){
             $response['error'] = false;
             $response['message'] = "Product exist";
-            $response['ID'] = $product['ProduktID'];
+            $response['ProduktID'] = $product['ProduktID'];
             $response['Hersteller'] = $product['Hersteller'];
             $response['Name'] = $product['Name'];
             $response['Preis'] = $product['Preis'];
