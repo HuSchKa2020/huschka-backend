@@ -52,9 +52,9 @@
         }
 
         public function userLogin($email, $passw){
-            $Password = md5($Passw);
-            $stmt = $this->con->prepare("SELECT id FROM Kunde WHERE email = ? AND password =?;");
-            $stmt->bind_param("ss",$email,$password);
+            $Password = md5($passw);
+            $stmt = $this->con->prepare("SELECT * FROM Kunde WHERE email = ? AND password =?;");
+            $stmt->bind_param("ss",$email,$Password);
             $stmt->execute();
             $stmt->store_result();
             return $stmt->num_rows >0;

@@ -14,8 +14,8 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
       if($db->userLogin($_POST['Email'], $_POST['Password'])){
         $user = $db->getUserbyUsername($_POST['Email']);
         $response['error'] = false;
-        $response['UserID'] = $user['UserID'];
-        $response['Email'] = $user['Email'];
+        $response['UserID'] = $user['id'];
+        $response['Email'] = $user['email'];
         $response['Nachname'] = $user['Nachname'];
         $response['Vorname'] = $user['Vorname'];
         
@@ -24,6 +24,8 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
         $response['error'] = true;
         
         $response['message'] = "invalid email or password";
+
+    
       }
       
   } else{
