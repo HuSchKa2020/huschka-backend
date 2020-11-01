@@ -17,12 +17,12 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         if($product != null){
             $response['error'] = false;
             $response['message'] = "Costumer exist";
-            $response['id'] = $product['UserID'];
+            $response['UserID'] = $product['id'];
             $response['Vorname'] = $product['Vorname'];
             $response['Nachname'] = $product['Nachname'];
             $response['Adresse'] = $product['Adresse'];
             $response['Bankverbindung'] = $product['Bankverbindung'];;
-            $response['email'] = $product['email'];;
+            $response['Email'] = $product['email'];;
         } else{
             $response['error'] = true;
             $response['message'] = "Product doesnt exist";
