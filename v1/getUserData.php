@@ -6,18 +6,18 @@ $response = array();
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
-    if(isset($_POST['id'])){
+    if(isset($_POST['KundenID'])){
 
 
 
         $db = new DbOperations();
 
-        $product = $db->GetCostumerData($_POST['id']);
+        $product = $db->GetCostumerData($_POST['KundenID']);
 
         if($product != null){
             $response['error'] = false;
             $response['message'] = "Costumer exist";
-            $response['id'] = $product['id'];
+            $response['id'] = $product['UserID'];
             $response['Vorname'] = $product['Vorname'];
             $response['Nachname'] = $product['Nachname'];
             $response['Adresse'] = $product['Adresse'];
