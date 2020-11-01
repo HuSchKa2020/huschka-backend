@@ -6,7 +6,7 @@ $response = array();
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
-    if(isset($_POST['email']) and 
+    if(isset($_POST['Email']) and 
             isset($_POST['Password']) and
             isset($_POST['Vorname'] ) and
             isset($_POST['Nachname']) and
