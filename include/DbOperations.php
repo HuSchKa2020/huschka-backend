@@ -214,11 +214,11 @@
         }
 
         public function getProductsbyListenID($ListenID){
-            $stmt = $this->con->prepare("SELECT * FROM Liste_Produkte l, Produkt p WHERE ListenID = ? AND l.ProduktID = p.ProduktID;");
+            $stmt = $this->con->prepare("SELECT ListenID, l.ProduktID, Anzahl, Hersteller, Name, Kategorie, Preis, Kcal FROM Liste_Produkte l, Produkt p WHERE ListenID = ? AND l.ProduktID = p.ProduktID;");
 
             $stmt ->bind_param("s",$ListenID);
             $stmt->execute();
-            $stmt->bind_result($ListenID, $ProduktID, $Anzahl, $ProduktID, $Hersteller, $Name, $Kategorie, $Preis, $Kcal);
+            $stmt->bind_result($ListenID, $ProduktID, $Anzahl, $Hersteller, $Name, $Kategorie, $Preis, $Kcal);
 
             $response=array();
 
@@ -243,6 +243,38 @@
         }
 
 
+        public function getScores($ListenID){
+
+            $stmt = $this->con->prepare("SELECT GesundheitsScore, UmweltScore, Ernaehrungsform FROM Liste_Produkte l, Produkt p WHERE ListenID = ? AND l.ProduktID = p.ProduktID;");
+
+            $stmt ->bind_param("s",$ListenID);
+            $stmt->execute();
+            $stmt->bind_result($GesundheitsScore, $UmweltScore, $Ernaehrungsform);
+
+            $response=array();
+            $numProdukteGesund = 0;     // Nummer der Produkte die einen GesundheitsScore enthalten
+            $numProdukte = 0;
+
+            $gesamtGesundheit = 0;
+            $gesamtUmwelt = 0;
+
+            while($stmt->fetch()){
+                if($GesundheitsScore != NULL){
+                    $gesamtGesundheit = $gesamtGesundheit + $GesundheitsScore;
+                    $numProdukteGesund++;
+                }
+                if($GesundheitsScore != NULL){
+                    $gesamtUmwelt = $gesamtUmwelt + $UmweltScore;
+                }
+                $numProdukte++;
+                
+            }
+            $response['GesundheitsScore'] = $gesamtGesundheit / $numProdukteGesund;
+            $response['Umweltscore'] = $gesamtUmwelt / $numProdukte;
+            //$temp['Ernaehrungsform'] = $Ernaehrungsform;
+
+            return $response;
+        }
 
         public function TotalPrice($ListenID){
             $stmt = $this->con->prepare("SELECT SUM(b.Preis * a.Anzahl) as Gesamtpreis FROM Liste_Produkte a, Produkt b WHERE ListenID = ? AND a.ProduktID = b.ProduktID;");
