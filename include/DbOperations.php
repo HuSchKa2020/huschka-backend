@@ -149,13 +149,12 @@
             $stmt ->bind_param("s",$param);
 
             $stmt->execute();
-            $stmt->bind_result($ProduktID, $Hersteller, $Name, $Kategorie, $Preis, $Kcal);
+            $stmt->bind_result($ProduktID, $Hersteller, $Name, $Kategorie, $Preis, $Kcal, $GesundheitsScore, $UmweltScore, $Ernaehrungsform);
 
             $response=array();
 
             while($stmt->fetch()){
                 $temp = array();
-
 
                 $temp['ProduktID'] = $ProduktID;
                 $temp['Hersteller'] = $Hersteller;
@@ -163,7 +162,9 @@
                 $temp['Kategorie'] = $Kategorie;
                 $temp['Preis'] = $Preis;
                 $temp['Kcal'] = $Kcal;
-
+                $temp['GesundheitsScore'] = $GesundheitsScore;
+                $temp['UmweltScore'] = $UmweltScore;
+                $temp['Ernaehrungsform'] = $Ernaehrungsform;
 
                 array_push($response,$temp);
             }
