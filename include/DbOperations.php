@@ -258,6 +258,10 @@
             $gesamtGesundheit = 0;
             $gesamtUmwelt = 0;
             $gesamtErnaehrung = "";
+            $minGesund = 10;
+            $maxGesund = 0;
+            $minUmwelt = 10;
+            $maxUmwelt = 0;
 
             while($stmt->fetch()){
                 if($GesundheitsScore != NULL){
@@ -276,6 +280,19 @@
                 } elseif($Ernaehrungsform == "Vegan" && $gesamtErnaehrung != "Omnivor" && $gesamtErnaehrung != "Vegetarisch"){
                     $gesamtErnaehrung = "Vegan";
                 }
+
+                if($GesundheitsScore <= $minGesund) {
+                    $minGesund = $GesundheitsScore;
+                }
+                if($GesundheitsScore >= $maxGesund) {
+                    $maxGesund = $GesundheitsScore;
+                }
+                if($UmweltScore <= $minUmwelt) {
+                    $minUmwelt = $UmweltScore;
+                }
+                if($UmweltScore <= $maxUmwelt) {
+                    $maxUmwelt = $UmweltScore;
+                }
                 
             }
 
@@ -286,6 +303,10 @@
             $response['UmweltScore'] = $ScoreUmwelt;
             $response['GesamtScore'] = ($ScoreGesund + $ScoreUmwelt) / 2;
             $response['Ernaehrungsform'] = $gesamtErnaehrung;
+            $response['MinGesundheitsScore'] = $minGesund;
+            $response['MaxGesundheitsScore'] = $maxGesund;
+            $response['MinUmweltScore'] = $minUmwelt;
+            $response['MaxUmweltScore'] = $minUmwelt;
 
             return $response;
         }
