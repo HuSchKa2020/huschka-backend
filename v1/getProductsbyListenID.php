@@ -10,10 +10,12 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
       
       $db = new DbOperations();
       
-      
-        $response = $db->getProductsbyListenID($_POST['ListenID']);
-        
-      
+      $responseProducts = $db->getProductsbyListenID($_POST['ListenID']);
+      $responseScores = $db->getScores($_POST['ListenID']);
+
+      $response["Produkte"] = $responseProducts;
+      $response["Scores"] = $responseScores;
+
   } else{
       
     $response['error'] = true;
