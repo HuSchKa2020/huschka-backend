@@ -3,13 +3,10 @@
 require_once '../include/DbOperations.php';
 $response = array();
 
-
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
     
     if(isset($_POST['ProduktID'])){
         
-        
-
         $db = new DbOperations();
 
         $product = $db->getProductInfo($_POST['ProduktID']);
@@ -21,8 +18,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             $response['Hersteller'] = $product['Hersteller'];
             $response['Name'] = $product['Name'];
             $response['Preis'] = $product['Preis'];
-            $response['Kcal'] = $product['Kcal'];;
-            $response['Kategorie'] = $product['Kategorie'];;
+            $response['Kcal'] = $product['Kcal'];
+            $response['Kategorie'] = $product['Kategorie'];
+            $response['GesundheitsScore'] = $product['GesundheitsScore'];
+            $response['UmweltScore'] = $product['UmweltScore'];
+            $response['Ernaehrungsform'] = $product['Ernaehrungsform'];
         } else{
             $response['error'] = true;
             $response['message'] = "Product doesnt exist";
@@ -35,35 +35,5 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $response['error'] = true;
     $response['message'] = "Invalid Request";
 }
-
-
-
-
-/*if(!$conn){
-    $response['error'] = true;
-    $response['message'] = "Error in Connection";
-}else{
-    if($_SERVER['REQUEST_METHOD'] == 'POST'){
-
-        if(isset($_POST['productID'])
-            ){
-                $productID = $_POST['productID'];
-                           
-                $sql_query = "SELECT * FROM 'Produkt' WHERE 'ProduktID' = '$productID';";
-                echo $sql_query;
-                $result = mysqli_query($conn, $sql_query);
-                
-                echo $result;
-
-                while($row = mysqli_fetch_array($result)){
-                    array_push($result, $row);
-                }
-   
-        }else{
-            $response['error'] = true;
-            $response['message'] = "Required fields are missing";
-        }
-    }
-//}*/
 
 echo json_encode($response);

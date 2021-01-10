@@ -149,13 +149,12 @@
             $stmt ->bind_param("s",$param);
 
             $stmt->execute();
-            $stmt->bind_result($ProduktID, $Hersteller, $Name, $Kategorie, $Preis, $Kcal);
+            $stmt->bind_result($ProduktID, $Hersteller, $Name, $Kategorie, $Preis, $Kcal, $GesundheitsScore, $UmweltScore, $Ernaehrungsform);
 
             $response=array();
 
             while($stmt->fetch()){
                 $temp = array();
-
 
                 $temp['ProduktID'] = $ProduktID;
                 $temp['Hersteller'] = $Hersteller;
@@ -163,7 +162,9 @@
                 $temp['Kategorie'] = $Kategorie;
                 $temp['Preis'] = $Preis;
                 $temp['Kcal'] = $Kcal;
-
+                $temp['GesundheitsScore'] = $GesundheitsScore;
+                $temp['UmweltScore'] = $UmweltScore;
+                $temp['Ernaehrungsform'] = $Ernaehrungsform;
 
                 array_push($response,$temp);
             }
@@ -214,11 +215,11 @@
         }
 
         public function getProductsbyListenID($ListenID){
-            $stmt = $this->con->prepare("SELECT * FROM Liste_Produkte l, Produkt p WHERE ListenID = ? AND l.ProduktID = p.ProduktID;");
+            $stmt = $this->con->prepare("SELECT ListenID, l.ProduktID, Anzahl, Hersteller, Name, Kategorie, Preis, Kcal FROM Liste_Produkte l, Produkt p WHERE ListenID = ? AND l.ProduktID = p.ProduktID;");
 
             $stmt ->bind_param("s",$ListenID);
             $stmt->execute();
-            $stmt->bind_result($ListenID, $ProduktID, $Anzahl, $ProduktID, $Hersteller, $Name, $Kategorie, $Preis, $Kcal);
+            $stmt->bind_result($ListenID, $ProduktID, $Anzahl, $Hersteller, $Name, $Kategorie, $Preis, $Kcal);
 
             $response=array();
 
@@ -243,6 +244,73 @@
         }
 
 
+        public function getScores($ListenID){
+
+            $stmt = $this->con->prepare("SELECT GesundheitsScore, UmweltScore, Ernaehrungsform FROM Liste_Produkte l, Produkt p WHERE ListenID = ? AND l.ProduktID = p.ProduktID;");
+
+            $stmt ->bind_param("s",$ListenID);
+            $stmt->execute();
+            $stmt->bind_result($GesundheitsScore, $UmweltScore, $Ernaehrungsform);
+
+            $response=array();
+            $numProdukteGesund = 0;     // Nummer der Produkte die einen GesundheitsScore enthalten
+            $numProdukte = 0;
+
+            $gesamtGesundheit = 0;
+            $gesamtUmwelt = 0;
+            $gesamtErnaehrung = "";
+            $minGesund = 10;
+            $maxGesund = 0;
+            $minUmwelt = 10;
+            $maxUmwelt = 0;
+
+            while($stmt->fetch()){
+                if($GesundheitsScore != NULL){
+                    $gesamtGesundheit = $gesamtGesundheit + $GesundheitsScore;
+                    $numProdukteGesund++;
+                }
+                if($GesundheitsScore != NULL){
+                    $gesamtUmwelt = $gesamtUmwelt + $UmweltScore;
+                }
+                $numProdukte++;
+
+                if($Ernaehrungsform == "Omnivor"){
+                    $gesamtErnaehrung = "Omnivor";
+                } elseif ($Ernaehrungsform == "Vegetarisch" && $gesamtErnaehrung != "Omnivor") {
+                    $gesamtErnaehrung = "Vegetarisch";
+                } elseif($Ernaehrungsform == "Vegan" && $gesamtErnaehrung != "Omnivor" && $gesamtErnaehrung != "Vegetarisch"){
+                    $gesamtErnaehrung = "Vegan";
+                }
+
+                if($GesundheitsScore <= $minGesund) {
+                    $minGesund = $GesundheitsScore;
+                }
+                if($GesundheitsScore >= $maxGesund) {
+                    $maxGesund = $GesundheitsScore;
+                }
+                if($UmweltScore <= $minUmwelt) {
+                    $minUmwelt = $UmweltScore;
+                }
+                if($UmweltScore <= $maxUmwelt) {
+                    $maxUmwelt = $UmweltScore;
+                }
+                
+            }
+
+            $ScoreGesund = $gesamtGesundheit / $numProdukteGesund;
+            $ScoreUmwelt = $gesamtUmwelt / $numProdukte;
+
+            $response['GesundheitsScore'] = $ScoreGesund;
+            $response['UmweltScore'] = $ScoreUmwelt;
+            $response['GesamtScore'] = ($ScoreGesund + $ScoreUmwelt) / 2;
+            $response['Ernaehrungsform'] = $gesamtErnaehrung;
+            $response['MinGesundheitsScore'] = $minGesund;
+            $response['MaxGesundheitsScore'] = $maxGesund;
+            $response['MinUmweltScore'] = $minUmwelt;
+            $response['MaxUmweltScore'] = $minUmwelt;
+
+            return $response;
+        }
 
         public function TotalPrice($ListenID){
             $stmt = $this->con->prepare("SELECT SUM(b.Preis * a.Anzahl) as Gesamtpreis FROM Liste_Produkte a, Produkt b WHERE ListenID = ? AND a.ProduktID = b.ProduktID;");
