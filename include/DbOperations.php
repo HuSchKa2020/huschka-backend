@@ -11,13 +11,13 @@
             $this->con = $db->connect();
         }
 
-        function createUser($email, $passw, $Vorname, $Nachname, $Adresse){
+        function createUser($email, $passw, $Vorname, $Nachname, $Adresse, $verifizierungsschluessel){
             $password = md5($passw); // Hash Password
 
-            $stmt = $this->con->prepare("INSERT INTO `Kunde` (`email`, `password`, `Vorname`, `Nachname`, `Adresse` )
+            $stmt = $this->con->prepare("INSERT INTO `Kunde` (`email`, `password`, `Vorname`, `Nachname`, `Adresse`, `verifizierungsschluessel`)
                 VALUES (?, ?, ?, ?, ?);");
 
-            $stmt->bind_param("sssss", $email, $password, $Vorname, $Nachname, $Adresse);
+            $stmt->bind_param("sssss", $email, $password, $Vorname, $Nachname, $Adresse, $verifizierungsschluessel);
 
             if($stmt->execute()){
                 return true;
@@ -26,7 +26,11 @@
             }
         }
 
-
+        function setUserverified($verifizierungsschluessel){
+            $stmt = $this->con->prepare("UPDATE Kunde SET verifiziert = '1' WHERE verifizierungsschluessel= ? ;");
+            $stmt->bind_param("s", $verifizierungsschluessel);
+            $stmt->execute();
+        }
 
         public function idAusgeben($email){                                     //function die Mittels Email die zuletzt erstellte ID ausgibt.
         $stmt = $this->con->prepare("SELECT id FROM Kunde ORDER BY id DESC;");
