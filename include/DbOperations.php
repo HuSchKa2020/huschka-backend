@@ -257,4 +257,56 @@
             $stmt->execute();
             return $stmt->get_result()->fetch_assoc();
         }
+
+        function UpdateName($Vorname, $id){
+          $stmt = $this->con->prepare("UPDATE Kunde SET `Vorname`=? WHERE id=?;");
+          $stmt->bind_param("ss",$Vorname,$id);
+          $stmt->execute();
+
+          if($stmt->execute()){
+            return true;
+          }else{
+            return false;
+          }
+        }
+
+        function UpdateLastName($Nachname, $id){
+          $stmt = $this->con->prepare("UPDATE Kunde SET `Nachname`=? WHERE id=?;");
+          $stmt->bind_param("ss",$Nachname,$id);
+          $stmt->execute();
+
+          if($stmt->execute()){
+            return true;
+          }else{
+            return false;
+          }
+        }
+
+        function UpdatePassword($passw, $id){
+        $password = md5($passw);
+
+        $stmt = $this->con->prepare("UPDATE Kunde SET `password`=? WHERE `id`=?;");
+        $stmt->bind_param("ss", $password, $id);
+        $stmt->execute();
+
+        if($stmt->execute()){
+          return true;
+        }else{
+          return false;
+        }
+      }
+      
+        function UpdateAdress($Adresse, $id){
+      
+
+        $stmt = $this->con->prepare("UPDATE Kunde SET `Adresse`=? WHERE `id`=?;");
+        $stmt->bind_param("ss", $Adresse, $id);
+        $stmt->execute();
+
+        if($stmt->execute()){
+          return true;
+        }else{
+          return false;
+        }
+      }
     }
