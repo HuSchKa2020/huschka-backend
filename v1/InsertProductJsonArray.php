@@ -16,7 +16,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             foreach((array)$Arr as $Item){
                 
                 if(
-                $db->InsertProducts($_POST['ListenID'],$Item['ProduktID'],$Item['Anzahl'])==false
+                $db->InsertProducts($_POST['ListenID'], $Item['ProduktID'], $Item['Anzahl'])==false
                 ){
                 
                     $isError=true;
@@ -26,12 +26,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             
             if($isError){
                  $response['error'] = true;
-                 $response['message'] = "Products couldn´t be added, try Again please!";
+                 $response['message'] = "Die Produkte konnten der Einkaufsliste leider nicht hinzugefügt werden.";
             } else{
                 $price = $db->TotalPrice($_POST['ListenID']);
                 $response['error'] = false;
-                $response['message'] = "hat funktioniert";
+                $response['message'] = "Produkte wurden der Einkaufsliste erfolgreich hinzugefügt.";
                 $response['Gesamtpreis'] = $price['Gesamtpreis'];
+                $response['Scores'] = $db->getScores($_POST['ListenID']);
             }
         }else{
         
