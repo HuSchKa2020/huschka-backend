@@ -375,10 +375,8 @@
 
         function UpdateAdress($Adresse, $id){
 
-
-            $stmt = $this->con->prepare("UPDATE Kunde SET `Adresse`=? WHERE `id`=?;");
+            $stmt = $this->con->prepare("UPDATE Kunde SET `Adresse`=? WHERE id=?;");
             $stmt->bind_param("ss", $Adresse, $id);
-            $stmt->execute();
 
             if($stmt->execute()){
                 return true;
