@@ -8,20 +8,29 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 
   if(isset($_POST['Nachname']) and
       isset($_POST['Vorname']) and
-      isset($_POST['id'])){
+      isset($_POST['KundenID'])){
 
       $db = new DbOperations();
 
 
-        $response = $db->UpdateLastName($_POST['Nachname'], $_POST['id']);
-        $response = $db->UpdateName($_POST['Vorname'], $_POST['id']);
+        if ($db->UpdateLastName($_POST['Nachname'], $_POST['KundenID']) and $db->UpdateName($_POST['Vorname'], $_POST['KundenID'])) {
+
+            $response['error'] = false;
+
+            $response['message'] = "Ihre Nutzerdaten wurden erfolgreich aktualisiert!"; 
+        
+        } else {
+            $response['error'] = true;
+
+            $response['message'] = "Fehler beim aktualisieren ihrer Nutzerdaten. Bitte kontaktieren Sie den Support.  ";
+        }
 
 
   } else{
 
-    $response['error'] = true;
+      $response['error'] = true;
 
-    $response['message'] = "Required fields are missing";
+      $response['message'] = "Required fields are missing";
 
     }
 }else{
