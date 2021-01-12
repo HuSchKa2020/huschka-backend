@@ -294,7 +294,7 @@
                 if($UmweltScore <= $maxUmwelt) {
                     $maxUmwelt = $UmweltScore;
                 }
-                
+
             }
 
             $ScoreGesund = $gesamtGesundheit / $numProdukteGesund;
@@ -350,31 +350,40 @@
           }
         }
 
-        function UpdatePassword($passw, $id){
-        $password = md5($passw);
-
-        $stmt = $this->con->prepare("UPDATE Kunde SET `password`=? WHERE `id`=?;");
-        $stmt->bind_param("ss", $password, $id);
-        $stmt->execute();
-
-        if($stmt->execute()){
-          return true;
-        }else{
-          return false;
-        }
-      }
+        function UpdatePassword($neuesPasswort, $KundenID){
+            $password = md5($neuesPasswort);            //neues Passwort_Hash
       
+            $stmt = $this->con->prepare("UPDATE Kunde SET `password`=? WHERE id=?;");
+            $stmt->bind_param("ss",$password,$KundenID);
+            
+
+            if($stmt->execute()){
+                return true;
+            }else{
+                return false;
+          }
+        }
+      
+        public function checkPasswort($altesPasswort, $KundenID){
+            $Password = md5($altesPasswort);
+            $stmt = $this->con->prepare("SELECT * FROM Kunde WHERE id = ? AND password =?;");
+            $stmt->bind_param("ss",$KundenID,$Password);
+            $stmt->execute();
+            $stmt->store_result();
+            return $stmt->num_rows >0;
+        }
+
         function UpdateAdress($Adresse, $id){
-      
 
-        $stmt = $this->con->prepare("UPDATE Kunde SET `Adresse`=? WHERE `id`=?;");
-        $stmt->bind_param("ss", $Adresse, $id);
-        $stmt->execute();
 
-        if($stmt->execute()){
-          return true;
-        }else{
-          return false;
+            $stmt = $this->con->prepare("UPDATE Kunde SET `Adresse`=? WHERE `id`=?;");
+            $stmt->bind_param("ss", $Adresse, $id);
+            $stmt->execute();
+
+            if($stmt->execute()){
+                return true;
+            }else{
+                return false;
+            }
         }
-      }
     }
