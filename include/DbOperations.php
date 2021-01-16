@@ -15,9 +15,9 @@
             $password = md5($passw); // Hash Password
 
             $stmt = $this->con->prepare("INSERT INTO `Kunde` (`email`, `password`, `Vorname`, `Nachname`, `Adresse`, `verifizierungsschluessel`)
-                VALUES (?, ?, ?, ?, ?);");
+                VALUES (?, ?, ?, ?, ?, ?);");
 
-            $stmt->bind_param("sssss", $email, $password, $Vorname, $Nachname, $Adresse, $verifizierungsschluessel);
+            $stmt->bind_param("ssssss", $email, $password, $Vorname, $Nachname, $Adresse, $verifizierungsschluessel);
 
             if($stmt->execute()){
                 return true;
