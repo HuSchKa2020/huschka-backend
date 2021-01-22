@@ -219,7 +219,7 @@
         }
 
         public function getProductsbyListenID($ListenID){
-            $stmt = $this->con->prepare("SELECT ListenID, l.ProduktID, Anzahl, Hersteller, Name, Kategorie, Preis, Kcal FROM Liste_Produkte l, Produkt p WHERE ListenID = ? AND l.ProduktID = p.ProduktID;");
+            $stmt = $this->con->prepare("SELECT DISTINCT ListenID, l.ProduktID, Anzahl, Hersteller, Name, Kategorie, Preis, Kcal FROM Liste_Produkte l, Produkt p WHERE ListenID = ? AND l.ProduktID = p.ProduktID;");
 
             $stmt ->bind_param("s",$ListenID);
             $stmt->execute();
@@ -356,10 +356,10 @@
 
         function UpdatePassword($neuesPasswort, $KundenID){
             $password = md5($neuesPasswort);            //neues Passwort_Hash
-      
+
             $stmt = $this->con->prepare("UPDATE Kunde SET `password`=? WHERE id=?;");
             $stmt->bind_param("ss",$password,$KundenID);
-            
+
 
             if($stmt->execute()){
                 return true;
@@ -367,7 +367,7 @@
                 return false;
           }
         }
-      
+
         public function checkPasswort($altesPasswort, $KundenID){
             $Password = md5($altesPasswort);
             $stmt = $this->con->prepare("SELECT * FROM Kunde WHERE id = ? AND password =?;");
@@ -387,5 +387,40 @@
             }else{
                 return false;
             }
+        }
+
+        public function ShoppinglistLocation($ListenID){
+            $stmt = $this->con->prepare("SELECT DISTINCT l.ListenID, l.ProduktID, l.Anzahl, p.Hersteller, p.Name, p.Kategorie, p.Preis, p.Kcal, p.GesundheitsScore, p.UmweltScore, p.Ernaehrungsform, k.Abteilung, k.Reihe, k.Regalhoehe FROM Liste_Produkte l, Produkt p, ProduktPosition k WHERE ListenID = ? AND l.ProduktID = p.ProduktID AND p.ProduktID = k.ProduktID;");
+
+            $stmt ->bind_param("s",$ListenID);
+            $stmt->execute();
+            $stmt->bind_result($ListenID, $ProduktID, $Anzahl, $Hersteller, $Name, $Kategorie, $Preis, $Kcal, $GesundheitsScore, $UmweltScore, $Ernaehrungsform, $Abteilung, $Reihe, $Regalhoehe);
+
+            $response=array();
+
+            while($stmt->fetch()){
+                $temp = array();
+
+
+                $temp['ListenID'] = $ListenID;
+                $temp['ProduktID'] = $ProduktID;
+                $temp['Hersteller'] = $Hersteller;
+                $temp['Name'] = $Name;
+                $temp['Kategorie'] = $Kategorie;
+                $temp['Preis'] = $Preis;
+                $temp['Kcal'] = $Kcal;
+                $temp['Anzahl'] = $Anzahl;
+                $temp['GesundheitsScore'] = $GesundheitsScore;
+                $temp['UmweltScore'] = $UmweltScore;
+                $temp['Ernaehrungsform'] = $Ernaehrungsform;
+                $temp['Abteilung'] = $Abteilung;
+                $temp['Reihe'] = $Reihe;
+                $temp['Regalhoehe'] = $Regalhoehe;
+
+                array_push($response,$temp);
+            }
+            return $response;
+
+
         }
     }
