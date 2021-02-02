@@ -3,34 +3,37 @@ require_once '../include/DbOperations.php';
 $response = array();
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
-    
-    if(isset($_POST['ProductArray']) AND
-        isset($_POST['ListenID']))
+
+    if(isset($_POST['ProduktArray'] AND 
+        isset $_POST['ListenID']))
         {
-            
+
             $db=new DbOperations();
-            
-            $Arr=json_decode($_POST['ProductArray'],true);
-            
+
+            $Arr=json_decode($_POST['ProduktArray'],true);
+
             $isError=false;
-            
-            if(!$db->DeleteAllProduct($_POST['ListenID'])){
+
+
+           
+              if(!$db->DeleteAllProduct($_POST['ListenID'])){
                 
                 $isError=true;
               }
-            
-            
+            }
+
+
             foreach((array)$Arr as $Item){
-                
+
                 if(
                 $db->InsertProducts($_POST['ListenID'], $Item['ProduktID'], $Item['Anzahl'])==false
                 ){
-                
+
                     $isError=true;
-                    
-                }                       
+
+                }
             }
-            
+
             if($isError){
                  $response['error'] = true;
                  $response['message'] = "Die Produkte konnten der Einkaufsliste leider nicht hinzugefügt werden.";
@@ -39,19 +42,18 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 $response['error'] = false;
                 $response['message'] = "Produkte wurden der Einkaufsliste erfolgreich hinzugefügt.";
                 $response['Gesamtpreis'] = $price['Gesamtpreis'];
-                $response['Scores'] = $db->getScores($_POST['ListenID']);
+                //$response['Scores'] = $db->getScores($_POST['ListenID']);
             }
         }else{
-        
+
         $response['error'] = true;
         $response['message'] = "Required fields are missing";
     }
-        
+
 }else{
     $response['error'] = true;
     $response['message'] = "Invalid Request";
 }
-
 
 echo json_encode($response);
 ?>
