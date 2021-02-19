@@ -18,6 +18,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
         $response['Email'] = $user['email'];
         $response['Nachname'] = $user['Nachname'];
         $response['Vorname'] = $user['Vorname'];
+        $response['verifiziert'] = $user['verifiziert'];
         
       }else{
           
