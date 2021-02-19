@@ -9,7 +9,7 @@
         $betreff = "Ihre HuSchKa Verifizierungsmail!";
 
         //$message = "Hallo '$vorname', bitte klicke <a href="huschka.ddnss.de/jan/verifizierung/verify.php?vkey=$vkey">hier</a> um dich zu verifizieren";
-        $message ="huschka.ddnss.de/jan/verifizierung/verify.php?vkey=$vkey";
+        $message ="huschka.ddnss.de/huschka/verifizierung/verify.php?vkey=$vkey";
         /*$headers = "From: The Sender Name <sender@huebner.de>\r\n";
         $headers .= "Reply-To: reply@jan.de\r\n";
         $headers .= "Content-type = text/html\r\n";
