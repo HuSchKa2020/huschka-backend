@@ -321,6 +321,8 @@
             $stmt -> bind_param("s", $ListenID);
             $stmt -> execute();
             return $stmt->get_result()->fetch_assoc();
+            //$row= mysql_fetch_array($stmt);
+            //$sum= $row['Gesamtpreis'];
         }
 
         function GetCostumerData($id){
